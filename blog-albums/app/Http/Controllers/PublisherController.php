@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PublisherResource;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class PublisherController extends Controller
     {
         //
         $publishers = Publisher::all();
-        return $publishers;
+        return PublisherResource::collection($publishers);
     }
 
     /**
@@ -46,14 +47,15 @@ class PublisherController extends Controller
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function show($publisher_id)
+    public function show(Publisher $publisher_id)
     {
         //
-        $publisher = Publisher::find($publisher_id);
-        if (is_null($publisher)) {
-            return response()->json('Data not found!', 404);
-        }
-        return response()->json($publisher);
+        // $publisher = Publisher::find($publisher_id);
+        // if (is_null($publisher)) {
+        //     return response()->json('Data not found!', 404);
+        // }
+        // return response()->json($publisher);
+        return new PublisherResource($publisher_id);
     }
 
     /**

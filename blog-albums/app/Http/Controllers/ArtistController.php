@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ArtistResource;
 use App\Models\Artist;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class ArtistController extends Controller
     {
         //
         $artists = Artist::all();
-        return $artists;
+        return ArtistResource::collection($artists);
     }
 
     /**
@@ -46,14 +47,15 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function show($artist_id)
+    public function show(Artist $artist_id)
     {
         //
-        $artist = Artist::find($artist_id);
-        if (is_null($artist)) {
-            return response()->json('Data not found!', 404);
-        }
-        return response()->json($artist);
+        // $artist = Artist::find($artist_id);
+        // if (is_null($artist)) {
+        //     return response()->json('Data not found!', 404);
+        // }
+        // return response()->json($artist);
+        return new ArtistResource($artist_id);
     }
 
     /**

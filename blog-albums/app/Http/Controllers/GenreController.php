@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GenreResource;
 use App\Models\Genre;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class GenreController extends Controller
     {
         //
         $genres = Genre::all();
-        return $genres;
+        return GenreResource::collection($genres);
     }
 
     /**
@@ -46,14 +47,15 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function show($genre_id)
+    public function show(Genre $genre_id)
     {
         //
-        $genre = Genre::find($genre_id);
-        if (is_null($genre)) {
-            return response()->json('Data not found!', 404);
-        }
-        return response()->json($genre);
+        // $genre = Genre::find($genre_id);
+        // if (is_null($genre)) {
+        //     return response()->json('Data not found!', 404);
+        // }
+        // return response()->json($genre);
+        return new GenreResource($genre_id);
     }
 
     /**

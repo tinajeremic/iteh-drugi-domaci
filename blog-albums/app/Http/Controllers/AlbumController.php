@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AlbumResource;
 use App\Models\Album;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,7 @@ class AlbumController extends Controller
     {
         //
         $albums = Album::all();
-        return $albums;
+        return AlbumResource::collection($albums);
     }
 
     /**
@@ -46,14 +47,16 @@ class AlbumController extends Controller
      * @param  \App\Models\Album  $album
      * @return \Illuminate\Http\Response
      */
-    public function show($album_id)
+    public function show(Album $album_id)
     {
         //
-        $album = Album::find($album_id);
-        if (is_null($album)) {
-            return response()->json('Data not found!', 404);
-        }
-        return response()->json($album);
+        // $album = Album::find($album_id);
+        // if (is_null($album)) {
+        //     return response()->json('Data not found!', 404);
+        // }
+        // return response()->json($album);
+
+        return new AlbumResource($album_id);
     }
 
     /**
