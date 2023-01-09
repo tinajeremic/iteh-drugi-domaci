@@ -38,7 +38,12 @@ class ArtistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $artist = Artist::create([
+            'name' => $request->name,
+            'country' => $request->description,          
+        ]);
+
+        return new ArtistResource($artist);
     }
 
     /**
@@ -76,9 +81,14 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Artist $artist)
+    public function update(Request $request, Artist $artist_id)
     {
-        //
+        $artist_id->update([
+            'name' => $request->name,
+            'country' => $request->description,          
+        ]);
+
+        return new ArtistResource($artist_id);
     }
 
     /**
@@ -87,8 +97,9 @@ class ArtistController extends Controller
      * @param  \App\Models\Artist  $artist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Artist $artist)
+    public function destroy(Artist $artist_id)
     {
-        //
+        return $artist_id->delete();
+        return response()->json('Artist deleted successfully.');
     }
 }

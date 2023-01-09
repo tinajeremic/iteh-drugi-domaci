@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlbumController;
 use App\Http\Controllers\AlbumControllerRest;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\ArtistControllerRest;
 use App\Http\Controllers\GenreController;
@@ -40,3 +41,17 @@ Route::resource('genres', GenreControllerRest::class);
 Route::resource('artists', ArtistControllerRest::class);
 Route::resource('publishers', PublisherControllerRest::class);
 Route::resource('users', UserControllerRest::class);
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/profile', function(Request $request) {
+        return auth()->user();
+    });
+    Route::resource('albums', AlbumController::class)->only(['store']);
+    Route::get('albums/{id}', [AlbumController::class, 'show'])->name('show');
+    Route::put('albums/{id}', [AlbumController::class, 'update'])->name('update');
+    Route::delete('albums/{id}', [AlbumController::class, 'destroy'])->name('destroy');
+    Route::post('/logout', [AuthController::class, 'logout']);
+});

@@ -38,7 +38,11 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $genre = Genre::create([
+            'name' => $request->name,                   
+        ]);
+
+        return new GenreResource($genre);
     }
 
     /**
@@ -76,9 +80,13 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Genre $genre)
+    public function update(Request $request, Genre $genre_id)
     {
-        //
+        $genre_id->update([
+            'name' => $request->name,                   
+        ]);
+
+        return new GenreResource($genre_id);
     }
 
     /**
@@ -87,8 +95,9 @@ class GenreController extends Controller
      * @param  \App\Models\Genre  $genre
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Genre $genre)
+    public function destroy(Genre $genre_id)
     {
-        //
+        return $genre_id->delete();
+        return response()->json('Genre deleted successfully.');
     }
 }

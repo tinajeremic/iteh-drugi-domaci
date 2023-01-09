@@ -38,7 +38,12 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $publisher = Publisher::create([
+            'name' => $request->name,  
+            'PIB' => $request->PIB,                 
+        ]);
+
+        return new PublisherResource($publisher);
     }
 
     /**
@@ -76,9 +81,14 @@ class PublisherController extends Controller
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Publisher $publisher)
+    public function update(Request $request, Publisher $publisher_id)
     {
-        //
+        $publisher_id->update([
+            'name' => $request->name,  
+            'PIB' => $request->PIB,                 
+        ]);
+
+        return new PublisherResource($publisher_id);
     }
 
     /**
@@ -87,8 +97,9 @@ class PublisherController extends Controller
      * @param  \App\Models\Publisher  $publisher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Publisher $publisher)
+    public function destroy(Publisher $publisher_id)
     {
-        //
+        return $publisher_id->delete();
+        return response()->json('Publisher deleted successfully.');
     }
 }
